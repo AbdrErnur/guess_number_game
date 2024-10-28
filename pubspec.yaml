@@ -1,4 +1,4 @@
-name: solvatech
+name: guess_number_game
 description: "A new Flutter project."
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -9,12 +9,10 @@ environment:
   sdk: ^3.5.3
 
 dependencies:
-  flutter_bloc: ^8.1.6
-  freezed_annotation: ^2.4.4
   flutter:
     sdk: flutter
-
-
+  flutter_bloc: ^8.1.6
+  freezed_annotation: ^2.4.4
   cupertino_icons: ^1.0.8
   equatable: ^2.0.5
   bloc: ^8.1.4

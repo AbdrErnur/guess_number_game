@@ -1,16 +1,71 @@
-# solvatech
+# guess_number_game
 
-A new Flutter project.
+Новый проект на Flutter.
 
-## Getting Started
+## Описание
 
-This project is a starting point for a Flutter application.
+'guess_number_game' — это игра на Flutter, в которой игрок выбирает верхний предел диапазона, в
+пределах которого программа загадывает случайное число, и устанавливает количество попыток для его
+отгадывания. Цель игры — угадать загаданное число, используя минимальное количество попыток.
 
-A few resources to get you started if this is your first Flutter project:
+## Версия
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+1.0.0+1
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Требования
+
+- Dart SDK: >=3.5.3 <4.0.0
+- Flutter SDK
+
+## Зависимости
+
+### Основные зависимости
+
+dependencies:
+flutter:
+sdk: flutter
+flutter_bloc: ^8.1.6
+freezed_annotation: ^2.4.4
+cupertino_icons: ^1.0.8
+equatable: ^2.0.5
+bloc: ^8.1.4
+
+### Зависимости для разработки
+
+dev_dependencies:
+build_runner: ^2.4.12
+freezed: ^2.5.7
+flutter_test:
+sdk: flutter
+flutter_lints: ^4.0.0
+
+## Установка
+
+1. Убедитесь, что у вас установлены Flutter и Dart SDK.
+2. Склонируйте репозиторий или загрузите исходный код проекта.
+3. Перейдите в корневую папку проекта и выполните команду для установки зависимостей:
+
+flutter pub get
+
+## Запуск проекта
+
+### Запуск на Android
+
+1. Подключите устройство Android или откройте эмулятор.
+2. Выполните команду:
+
+flutter run
+
+### Запуск на iOS
+
+1. Подключите устройство iOS или откройте симулятор.
+2. Выполните команду:
+
+flutter run
+
+## Ресурсы
+
+Убедитесь, что у вас есть следующая конфигурация в вашем `pubspec.yaml` для ресурсов:
+
+flutter:
+uses-material-design: true
