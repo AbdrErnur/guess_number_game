@@ -4,14 +4,12 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'game_page_bloc.freezed.dart';
+
 part 'game_page_event.dart';
+
 part 'game_page_state.dart';
 
 class GamePageBloc extends Bloc<GamePageEvent, GameState> {
-  late int _targetNumber;
-  late int _maxNumber;
-  int _remainingAttempts = 0;
-
   GamePageBloc() : super(const GameState.initial()) {
     on<StartGameEvent>(_onStartGame);
     on<GuessNumberEvent>(_onGuessNumber);
@@ -20,38 +18,48 @@ class GamePageBloc extends Bloc<GamePageEvent, GameState> {
   }
 
   void _onStartGame(StartGameEvent event, Emitter<GameState> emit) {
-    _maxNumber = event.maxNumber;
-    _targetNumber = Random().nextInt(_maxNumber) + 1;
-    _remainingAttempts = event.maxAttempts;
+    final targetNumber = Random().nextInt(event.maxNumber) + 1;
+    final maxNumber = event.maxNumber;
+    final remainingAttempts = event.maxAttempts;
     emit(GameState.inProgress(
-      remainingAttempts: _remainingAttempts,
-      maxNumber: _maxNumber,
+      targetNumber: targetNumber,
+      maxNumber: maxNumber,
+      remainingAttempts: remainingAttempts,
     ));
   }
 
   void _onGuessNumber(GuessNumberEvent event, Emitter<GameState> emit) {
-    final guessedNumber = event.guessedNumber;
-
-    if (_remainingAttempts > 0) {
-      if (guessedNumber == _targetNumber) {
-        emit(const GameState.won());
-      } else {
-        _remainingAttempts--;
-
-        if (_remainingAttempts == 0) {
-          emit(GameState.lost(correctNumber: _targetNumber));
-        } else {
-          final message = guessedNumber > _targetNumber
-              ? 'Загаданное число меньше.'
-              : 'Загаданное число больше.';
-          emit(GameState.inProgress(
-            remainingAttempts: _remainingAttempts,
-            maxNumber: _maxNumber,
-            message: message,
+    state.maybeWhen(
+      inProgress: (targetNumber, maxNumber, remainingAttempts, message) {
+        if (event.guessedNumber == targetNumber) {
+          emit(GameState.won(
+            targetNumber: targetNumber,
+            maxNumber: maxNumber,
+            remainingAttempts: remainingAttempts,
           ));
+        } else {
+          final updatedAttempts = remainingAttempts - 1;
+          if (updatedAttempts == 0) {
+            emit(GameState.lost(
+              targetNumber: targetNumber,
+              maxNumber: maxNumber,
+              remainingAttempts: 0,
+            ));
+          } else {
+            final newMessage = event.guessedNumber > targetNumber
+                ? 'Загаданное число меньше'
+                : 'Загаданное число больше';
+            emit(GameState.inProgress(
+              targetNumber: targetNumber,
+              maxNumber: maxNumber,
+              remainingAttempts: updatedAttempts,
+              message: newMessage,
+            ));
+          }
         }
-      }
-    }
+      },
+      orElse: () {},
+    );
   }
 
   void _onUpdateFields(UpdateFieldsEvent event, Emitter<GameState> emit) {

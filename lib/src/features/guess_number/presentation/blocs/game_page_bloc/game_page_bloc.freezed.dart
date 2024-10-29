@@ -702,32 +702,51 @@ abstract class ResetGameEvent implements GamePageEvent {
 
 /// @nodoc
 mixin _$GameState {
+  int get targetNumber => throw _privateConstructorUsedError;
+  int get maxNumber => throw _privateConstructorUsedError;
+  int get remainingAttempts => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool isButtonEnabled) initial,
-    required TResult Function(
-            int remainingAttempts, int maxNumber, String? message)
+    required TResult Function(int targetNumber, int maxNumber,
+            int remainingAttempts, bool isButtonEnabled)
+        initial,
+    required TResult Function(int targetNumber, int maxNumber,
+            int remainingAttempts, String? message)
         inProgress,
-    required TResult Function() won,
-    required TResult Function(int correctNumber) lost,
+    required TResult Function(
+            int targetNumber, int maxNumber, int remainingAttempts)
+        won,
+    required TResult Function(
+            int targetNumber, int maxNumber, int remainingAttempts)
+        lost,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool isButtonEnabled)? initial,
-    TResult? Function(int remainingAttempts, int maxNumber, String? message)?
+    TResult? Function(int targetNumber, int maxNumber, int remainingAttempts,
+            bool isButtonEnabled)?
+        initial,
+    TResult? Function(int targetNumber, int maxNumber, int remainingAttempts,
+            String? message)?
         inProgress,
-    TResult? Function()? won,
-    TResult? Function(int correctNumber)? lost,
+    TResult? Function(int targetNumber, int maxNumber, int remainingAttempts)?
+        won,
+    TResult? Function(int targetNumber, int maxNumber, int remainingAttempts)?
+        lost,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool isButtonEnabled)? initial,
-    TResult Function(int remainingAttempts, int maxNumber, String? message)?
+    TResult Function(int targetNumber, int maxNumber, int remainingAttempts,
+            bool isButtonEnabled)?
+        initial,
+    TResult Function(int targetNumber, int maxNumber, int remainingAttempts,
+            String? message)?
         inProgress,
-    TResult Function()? won,
-    TResult Function(int correctNumber)? lost,
+    TResult Function(int targetNumber, int maxNumber, int remainingAttempts)?
+        won,
+    TResult Function(int targetNumber, int maxNumber, int remainingAttempts)?
+        lost,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -756,12 +775,20 @@ mixin _$GameState {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Create a copy of GameState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $GameStateCopyWith<GameState> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $GameStateCopyWith<$Res> {
   factory $GameStateCopyWith(GameState value, $Res Function(GameState) then) =
       _$GameStateCopyWithImpl<$Res, GameState>;
+  @useResult
+  $Res call({int targetNumber, int maxNumber, int remainingAttempts});
 }
 
 /// @nodoc
@@ -776,15 +803,43 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
 
   /// Create a copy of GameState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? targetNumber = null,
+    Object? maxNumber = null,
+    Object? remainingAttempts = null,
+  }) {
+    return _then(_value.copyWith(
+      targetNumber: null == targetNumber
+          ? _value.targetNumber
+          : targetNumber // ignore: cast_nullable_to_non_nullable
+              as int,
+      maxNumber: null == maxNumber
+          ? _value.maxNumber
+          : maxNumber // ignore: cast_nullable_to_non_nullable
+              as int,
+      remainingAttempts: null == remainingAttempts
+          ? _value.remainingAttempts
+          : remainingAttempts // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$InitialStateImplCopyWith<$Res> {
+abstract class _$$InitialStateImplCopyWith<$Res>
+    implements $GameStateCopyWith<$Res> {
   factory _$$InitialStateImplCopyWith(
           _$InitialStateImpl value, $Res Function(_$InitialStateImpl) then) =
       __$$InitialStateImplCopyWithImpl<$Res>;
+  @override
   @useResult
-  $Res call({bool isButtonEnabled});
+  $Res call(
+      {int targetNumber,
+      int maxNumber,
+      int remainingAttempts,
+      bool isButtonEnabled});
 }
 
 /// @nodoc
@@ -800,9 +855,24 @@ class __$$InitialStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? targetNumber = null,
+    Object? maxNumber = null,
+    Object? remainingAttempts = null,
     Object? isButtonEnabled = null,
   }) {
     return _then(_$InitialStateImpl(
+      targetNumber: null == targetNumber
+          ? _value.targetNumber
+          : targetNumber // ignore: cast_nullable_to_non_nullable
+              as int,
+      maxNumber: null == maxNumber
+          ? _value.maxNumber
+          : maxNumber // ignore: cast_nullable_to_non_nullable
+              as int,
+      remainingAttempts: null == remainingAttempts
+          ? _value.remainingAttempts
+          : remainingAttempts // ignore: cast_nullable_to_non_nullable
+              as int,
       isButtonEnabled: null == isButtonEnabled
           ? _value.isButtonEnabled
           : isButtonEnabled // ignore: cast_nullable_to_non_nullable
@@ -814,15 +884,28 @@ class __$$InitialStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$InitialStateImpl implements InitialState {
-  const _$InitialStateImpl({this.isButtonEnabled = false});
+  const _$InitialStateImpl(
+      {this.targetNumber = 0,
+      this.maxNumber = 0,
+      this.remainingAttempts = 0,
+      this.isButtonEnabled = false});
 
+  @override
+  @JsonKey()
+  final int targetNumber;
+  @override
+  @JsonKey()
+  final int maxNumber;
+  @override
+  @JsonKey()
+  final int remainingAttempts;
   @override
   @JsonKey()
   final bool isButtonEnabled;
 
   @override
   String toString() {
-    return 'GameState.initial(isButtonEnabled: $isButtonEnabled)';
+    return 'GameState.initial(targetNumber: $targetNumber, maxNumber: $maxNumber, remainingAttempts: $remainingAttempts, isButtonEnabled: $isButtonEnabled)';
   }
 
   @override
@@ -830,12 +913,19 @@ class _$InitialStateImpl implements InitialState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$InitialStateImpl &&
+            (identical(other.targetNumber, targetNumber) ||
+                other.targetNumber == targetNumber) &&
+            (identical(other.maxNumber, maxNumber) ||
+                other.maxNumber == maxNumber) &&
+            (identical(other.remainingAttempts, remainingAttempts) ||
+                other.remainingAttempts == remainingAttempts) &&
             (identical(other.isButtonEnabled, isButtonEnabled) ||
                 other.isButtonEnabled == isButtonEnabled));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isButtonEnabled);
+  int get hashCode => Object.hash(
+      runtimeType, targetNumber, maxNumber, remainingAttempts, isButtonEnabled);
 
   /// Create a copy of GameState
   /// with the given fields replaced by the non-null parameter values.
@@ -848,40 +938,58 @@ class _$InitialStateImpl implements InitialState {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool isButtonEnabled) initial,
-    required TResult Function(
-            int remainingAttempts, int maxNumber, String? message)
+    required TResult Function(int targetNumber, int maxNumber,
+            int remainingAttempts, bool isButtonEnabled)
+        initial,
+    required TResult Function(int targetNumber, int maxNumber,
+            int remainingAttempts, String? message)
         inProgress,
-    required TResult Function() won,
-    required TResult Function(int correctNumber) lost,
+    required TResult Function(
+            int targetNumber, int maxNumber, int remainingAttempts)
+        won,
+    required TResult Function(
+            int targetNumber, int maxNumber, int remainingAttempts)
+        lost,
   }) {
-    return initial(isButtonEnabled);
+    return initial(targetNumber, maxNumber, remainingAttempts, isButtonEnabled);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool isButtonEnabled)? initial,
-    TResult? Function(int remainingAttempts, int maxNumber, String? message)?
+    TResult? Function(int targetNumber, int maxNumber, int remainingAttempts,
+            bool isButtonEnabled)?
+        initial,
+    TResult? Function(int targetNumber, int maxNumber, int remainingAttempts,
+            String? message)?
         inProgress,
-    TResult? Function()? won,
-    TResult? Function(int correctNumber)? lost,
+    TResult? Function(int targetNumber, int maxNumber, int remainingAttempts)?
+        won,
+    TResult? Function(int targetNumber, int maxNumber, int remainingAttempts)?
+        lost,
   }) {
-    return initial?.call(isButtonEnabled);
+    return initial?.call(
+        targetNumber, maxNumber, remainingAttempts, isButtonEnabled);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool isButtonEnabled)? initial,
-    TResult Function(int remainingAttempts, int maxNumber, String? message)?
+    TResult Function(int targetNumber, int maxNumber, int remainingAttempts,
+            bool isButtonEnabled)?
+        initial,
+    TResult Function(int targetNumber, int maxNumber, int remainingAttempts,
+            String? message)?
         inProgress,
-    TResult Function()? won,
-    TResult Function(int correctNumber)? lost,
+    TResult Function(int targetNumber, int maxNumber, int remainingAttempts)?
+        won,
+    TResult Function(int targetNumber, int maxNumber, int remainingAttempts)?
+        lost,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(isButtonEnabled);
+      return initial(
+          targetNumber, maxNumber, remainingAttempts, isButtonEnabled);
     }
     return orElse();
   }
@@ -925,24 +1033,41 @@ class _$InitialStateImpl implements InitialState {
 }
 
 abstract class InitialState implements GameState {
-  const factory InitialState({final bool isButtonEnabled}) = _$InitialStateImpl;
+  const factory InitialState(
+      {final int targetNumber,
+      final int maxNumber,
+      final int remainingAttempts,
+      final bool isButtonEnabled}) = _$InitialStateImpl;
 
+  @override
+  int get targetNumber;
+  @override
+  int get maxNumber;
+  @override
+  int get remainingAttempts;
   bool get isButtonEnabled;
 
   /// Create a copy of GameState
   /// with the given fields replaced by the non-null parameter values.
+  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InitialStateImplCopyWith<_$InitialStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$InProgressStateImplCopyWith<$Res> {
+abstract class _$$InProgressStateImplCopyWith<$Res>
+    implements $GameStateCopyWith<$Res> {
   factory _$$InProgressStateImplCopyWith(_$InProgressStateImpl value,
           $Res Function(_$InProgressStateImpl) then) =
       __$$InProgressStateImplCopyWithImpl<$Res>;
+  @override
   @useResult
-  $Res call({int remainingAttempts, int maxNumber, String? message});
+  $Res call(
+      {int targetNumber,
+      int maxNumber,
+      int remainingAttempts,
+      String? message});
 }
 
 /// @nodoc
@@ -958,18 +1083,23 @@ class __$$InProgressStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? remainingAttempts = null,
+    Object? targetNumber = null,
     Object? maxNumber = null,
+    Object? remainingAttempts = null,
     Object? message = freezed,
   }) {
     return _then(_$InProgressStateImpl(
-      remainingAttempts: null == remainingAttempts
-          ? _value.remainingAttempts
-          : remainingAttempts // ignore: cast_nullable_to_non_nullable
+      targetNumber: null == targetNumber
+          ? _value.targetNumber
+          : targetNumber // ignore: cast_nullable_to_non_nullable
               as int,
       maxNumber: null == maxNumber
           ? _value.maxNumber
           : maxNumber // ignore: cast_nullable_to_non_nullable
+              as int,
+      remainingAttempts: null == remainingAttempts
+          ? _value.remainingAttempts
+          : remainingAttempts // ignore: cast_nullable_to_non_nullable
               as int,
       message: freezed == message
           ? _value.message
@@ -983,18 +1113,23 @@ class __$$InProgressStateImplCopyWithImpl<$Res>
 
 class _$InProgressStateImpl implements InProgressState {
   const _$InProgressStateImpl(
-      {required this.remainingAttempts, required this.maxNumber, this.message});
+      {required this.targetNumber,
+      required this.maxNumber,
+      required this.remainingAttempts,
+      this.message});
 
   @override
-  final int remainingAttempts;
+  final int targetNumber;
   @override
   final int maxNumber;
+  @override
+  final int remainingAttempts;
   @override
   final String? message;
 
   @override
   String toString() {
-    return 'GameState.inProgress(remainingAttempts: $remainingAttempts, maxNumber: $maxNumber, message: $message)';
+    return 'GameState.inProgress(targetNumber: $targetNumber, maxNumber: $maxNumber, remainingAttempts: $remainingAttempts, message: $message)';
   }
 
   @override
@@ -1002,16 +1137,18 @@ class _$InProgressStateImpl implements InProgressState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$InProgressStateImpl &&
-            (identical(other.remainingAttempts, remainingAttempts) ||
-                other.remainingAttempts == remainingAttempts) &&
+            (identical(other.targetNumber, targetNumber) ||
+                other.targetNumber == targetNumber) &&
             (identical(other.maxNumber, maxNumber) ||
                 other.maxNumber == maxNumber) &&
+            (identical(other.remainingAttempts, remainingAttempts) ||
+                other.remainingAttempts == remainingAttempts) &&
             (identical(other.message, message) || other.message == message));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, remainingAttempts, maxNumber, message);
+  int get hashCode => Object.hash(
+      runtimeType, targetNumber, maxNumber, remainingAttempts, message);
 
   /// Create a copy of GameState
   /// with the given fields replaced by the non-null parameter values.
@@ -1025,40 +1162,57 @@ class _$InProgressStateImpl implements InProgressState {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool isButtonEnabled) initial,
-    required TResult Function(
-            int remainingAttempts, int maxNumber, String? message)
+    required TResult Function(int targetNumber, int maxNumber,
+            int remainingAttempts, bool isButtonEnabled)
+        initial,
+    required TResult Function(int targetNumber, int maxNumber,
+            int remainingAttempts, String? message)
         inProgress,
-    required TResult Function() won,
-    required TResult Function(int correctNumber) lost,
+    required TResult Function(
+            int targetNumber, int maxNumber, int remainingAttempts)
+        won,
+    required TResult Function(
+            int targetNumber, int maxNumber, int remainingAttempts)
+        lost,
   }) {
-    return inProgress(remainingAttempts, maxNumber, message);
+    return inProgress(targetNumber, maxNumber, remainingAttempts, message);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool isButtonEnabled)? initial,
-    TResult? Function(int remainingAttempts, int maxNumber, String? message)?
+    TResult? Function(int targetNumber, int maxNumber, int remainingAttempts,
+            bool isButtonEnabled)?
+        initial,
+    TResult? Function(int targetNumber, int maxNumber, int remainingAttempts,
+            String? message)?
         inProgress,
-    TResult? Function()? won,
-    TResult? Function(int correctNumber)? lost,
+    TResult? Function(int targetNumber, int maxNumber, int remainingAttempts)?
+        won,
+    TResult? Function(int targetNumber, int maxNumber, int remainingAttempts)?
+        lost,
   }) {
-    return inProgress?.call(remainingAttempts, maxNumber, message);
+    return inProgress?.call(
+        targetNumber, maxNumber, remainingAttempts, message);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool isButtonEnabled)? initial,
-    TResult Function(int remainingAttempts, int maxNumber, String? message)?
+    TResult Function(int targetNumber, int maxNumber, int remainingAttempts,
+            bool isButtonEnabled)?
+        initial,
+    TResult Function(int targetNumber, int maxNumber, int remainingAttempts,
+            String? message)?
         inProgress,
-    TResult Function()? won,
-    TResult Function(int correctNumber)? lost,
+    TResult Function(int targetNumber, int maxNumber, int remainingAttempts)?
+        won,
+    TResult Function(int targetNumber, int maxNumber, int remainingAttempts)?
+        lost,
     required TResult orElse(),
   }) {
     if (inProgress != null) {
-      return inProgress(remainingAttempts, maxNumber, message);
+      return inProgress(targetNumber, maxNumber, remainingAttempts, message);
     }
     return orElse();
   }
@@ -1103,26 +1257,36 @@ class _$InProgressStateImpl implements InProgressState {
 
 abstract class InProgressState implements GameState {
   const factory InProgressState(
-      {required final int remainingAttempts,
+      {required final int targetNumber,
       required final int maxNumber,
+      required final int remainingAttempts,
       final String? message}) = _$InProgressStateImpl;
 
-  int get remainingAttempts;
+  @override
+  int get targetNumber;
+  @override
   int get maxNumber;
+  @override
+  int get remainingAttempts;
   String? get message;
 
   /// Create a copy of GameState
   /// with the given fields replaced by the non-null parameter values.
+  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InProgressStateImplCopyWith<_$InProgressStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$GameWonStateImplCopyWith<$Res> {
+abstract class _$$GameWonStateImplCopyWith<$Res>
+    implements $GameStateCopyWith<$Res> {
   factory _$$GameWonStateImplCopyWith(
           _$GameWonStateImpl value, $Res Function(_$GameWonStateImpl) then) =
       __$$GameWonStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int targetNumber, int maxNumber, int remainingAttempts});
 }
 
 /// @nodoc
@@ -1135,64 +1299,128 @@ class __$$GameWonStateImplCopyWithImpl<$Res>
 
   /// Create a copy of GameState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? targetNumber = null,
+    Object? maxNumber = null,
+    Object? remainingAttempts = null,
+  }) {
+    return _then(_$GameWonStateImpl(
+      targetNumber: null == targetNumber
+          ? _value.targetNumber
+          : targetNumber // ignore: cast_nullable_to_non_nullable
+              as int,
+      maxNumber: null == maxNumber
+          ? _value.maxNumber
+          : maxNumber // ignore: cast_nullable_to_non_nullable
+              as int,
+      remainingAttempts: null == remainingAttempts
+          ? _value.remainingAttempts
+          : remainingAttempts // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$GameWonStateImpl implements GameWonState {
-  const _$GameWonStateImpl();
+  const _$GameWonStateImpl(
+      {required this.targetNumber,
+      required this.maxNumber,
+      required this.remainingAttempts});
+
+  @override
+  final int targetNumber;
+  @override
+  final int maxNumber;
+  @override
+  final int remainingAttempts;
 
   @override
   String toString() {
-    return 'GameState.won()';
+    return 'GameState.won(targetNumber: $targetNumber, maxNumber: $maxNumber, remainingAttempts: $remainingAttempts)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$GameWonStateImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$GameWonStateImpl &&
+            (identical(other.targetNumber, targetNumber) ||
+                other.targetNumber == targetNumber) &&
+            (identical(other.maxNumber, maxNumber) ||
+                other.maxNumber == maxNumber) &&
+            (identical(other.remainingAttempts, remainingAttempts) ||
+                other.remainingAttempts == remainingAttempts));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      Object.hash(runtimeType, targetNumber, maxNumber, remainingAttempts);
+
+  /// Create a copy of GameState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GameWonStateImplCopyWith<_$GameWonStateImpl> get copyWith =>
+      __$$GameWonStateImplCopyWithImpl<_$GameWonStateImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool isButtonEnabled) initial,
-    required TResult Function(
-            int remainingAttempts, int maxNumber, String? message)
+    required TResult Function(int targetNumber, int maxNumber,
+            int remainingAttempts, bool isButtonEnabled)
+        initial,
+    required TResult Function(int targetNumber, int maxNumber,
+            int remainingAttempts, String? message)
         inProgress,
-    required TResult Function() won,
-    required TResult Function(int correctNumber) lost,
+    required TResult Function(
+            int targetNumber, int maxNumber, int remainingAttempts)
+        won,
+    required TResult Function(
+            int targetNumber, int maxNumber, int remainingAttempts)
+        lost,
   }) {
-    return won();
+    return won(targetNumber, maxNumber, remainingAttempts);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool isButtonEnabled)? initial,
-    TResult? Function(int remainingAttempts, int maxNumber, String? message)?
+    TResult? Function(int targetNumber, int maxNumber, int remainingAttempts,
+            bool isButtonEnabled)?
+        initial,
+    TResult? Function(int targetNumber, int maxNumber, int remainingAttempts,
+            String? message)?
         inProgress,
-    TResult? Function()? won,
-    TResult? Function(int correctNumber)? lost,
+    TResult? Function(int targetNumber, int maxNumber, int remainingAttempts)?
+        won,
+    TResult? Function(int targetNumber, int maxNumber, int remainingAttempts)?
+        lost,
   }) {
-    return won?.call();
+    return won?.call(targetNumber, maxNumber, remainingAttempts);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool isButtonEnabled)? initial,
-    TResult Function(int remainingAttempts, int maxNumber, String? message)?
+    TResult Function(int targetNumber, int maxNumber, int remainingAttempts,
+            bool isButtonEnabled)?
+        initial,
+    TResult Function(int targetNumber, int maxNumber, int remainingAttempts,
+            String? message)?
         inProgress,
-    TResult Function()? won,
-    TResult Function(int correctNumber)? lost,
+    TResult Function(int targetNumber, int maxNumber, int remainingAttempts)?
+        won,
+    TResult Function(int targetNumber, int maxNumber, int remainingAttempts)?
+        lost,
     required TResult orElse(),
   }) {
     if (won != null) {
-      return won();
+      return won(targetNumber, maxNumber, remainingAttempts);
     }
     return orElse();
   }
@@ -1236,16 +1464,35 @@ class _$GameWonStateImpl implements GameWonState {
 }
 
 abstract class GameWonState implements GameState {
-  const factory GameWonState() = _$GameWonStateImpl;
+  const factory GameWonState(
+      {required final int targetNumber,
+      required final int maxNumber,
+      required final int remainingAttempts}) = _$GameWonStateImpl;
+
+  @override
+  int get targetNumber;
+  @override
+  int get maxNumber;
+  @override
+  int get remainingAttempts;
+
+  /// Create a copy of GameState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GameWonStateImplCopyWith<_$GameWonStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$GameLostStateImplCopyWith<$Res> {
+abstract class _$$GameLostStateImplCopyWith<$Res>
+    implements $GameStateCopyWith<$Res> {
   factory _$$GameLostStateImplCopyWith(
           _$GameLostStateImpl value, $Res Function(_$GameLostStateImpl) then) =
       __$$GameLostStateImplCopyWithImpl<$Res>;
+  @override
   @useResult
-  $Res call({int correctNumber});
+  $Res call({int targetNumber, int maxNumber, int remainingAttempts});
 }
 
 /// @nodoc
@@ -1261,12 +1508,22 @@ class __$$GameLostStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? correctNumber = null,
+    Object? targetNumber = null,
+    Object? maxNumber = null,
+    Object? remainingAttempts = null,
   }) {
     return _then(_$GameLostStateImpl(
-      correctNumber: null == correctNumber
-          ? _value.correctNumber
-          : correctNumber // ignore: cast_nullable_to_non_nullable
+      targetNumber: null == targetNumber
+          ? _value.targetNumber
+          : targetNumber // ignore: cast_nullable_to_non_nullable
+              as int,
+      maxNumber: null == maxNumber
+          ? _value.maxNumber
+          : maxNumber // ignore: cast_nullable_to_non_nullable
+              as int,
+      remainingAttempts: null == remainingAttempts
+          ? _value.remainingAttempts
+          : remainingAttempts // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }
@@ -1275,14 +1532,21 @@ class __$$GameLostStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$GameLostStateImpl implements GameLostState {
-  const _$GameLostStateImpl({required this.correctNumber});
+  const _$GameLostStateImpl(
+      {required this.targetNumber,
+      required this.maxNumber,
+      required this.remainingAttempts});
 
   @override
-  final int correctNumber;
+  final int targetNumber;
+  @override
+  final int maxNumber;
+  @override
+  final int remainingAttempts;
 
   @override
   String toString() {
-    return 'GameState.lost(correctNumber: $correctNumber)';
+    return 'GameState.lost(targetNumber: $targetNumber, maxNumber: $maxNumber, remainingAttempts: $remainingAttempts)';
   }
 
   @override
@@ -1290,12 +1554,17 @@ class _$GameLostStateImpl implements GameLostState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GameLostStateImpl &&
-            (identical(other.correctNumber, correctNumber) ||
-                other.correctNumber == correctNumber));
+            (identical(other.targetNumber, targetNumber) ||
+                other.targetNumber == targetNumber) &&
+            (identical(other.maxNumber, maxNumber) ||
+                other.maxNumber == maxNumber) &&
+            (identical(other.remainingAttempts, remainingAttempts) ||
+                other.remainingAttempts == remainingAttempts));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, correctNumber);
+  int get hashCode =>
+      Object.hash(runtimeType, targetNumber, maxNumber, remainingAttempts);
 
   /// Create a copy of GameState
   /// with the given fields replaced by the non-null parameter values.
@@ -1308,40 +1577,56 @@ class _$GameLostStateImpl implements GameLostState {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool isButtonEnabled) initial,
-    required TResult Function(
-            int remainingAttempts, int maxNumber, String? message)
+    required TResult Function(int targetNumber, int maxNumber,
+            int remainingAttempts, bool isButtonEnabled)
+        initial,
+    required TResult Function(int targetNumber, int maxNumber,
+            int remainingAttempts, String? message)
         inProgress,
-    required TResult Function() won,
-    required TResult Function(int correctNumber) lost,
+    required TResult Function(
+            int targetNumber, int maxNumber, int remainingAttempts)
+        won,
+    required TResult Function(
+            int targetNumber, int maxNumber, int remainingAttempts)
+        lost,
   }) {
-    return lost(correctNumber);
+    return lost(targetNumber, maxNumber, remainingAttempts);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool isButtonEnabled)? initial,
-    TResult? Function(int remainingAttempts, int maxNumber, String? message)?
+    TResult? Function(int targetNumber, int maxNumber, int remainingAttempts,
+            bool isButtonEnabled)?
+        initial,
+    TResult? Function(int targetNumber, int maxNumber, int remainingAttempts,
+            String? message)?
         inProgress,
-    TResult? Function()? won,
-    TResult? Function(int correctNumber)? lost,
+    TResult? Function(int targetNumber, int maxNumber, int remainingAttempts)?
+        won,
+    TResult? Function(int targetNumber, int maxNumber, int remainingAttempts)?
+        lost,
   }) {
-    return lost?.call(correctNumber);
+    return lost?.call(targetNumber, maxNumber, remainingAttempts);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool isButtonEnabled)? initial,
-    TResult Function(int remainingAttempts, int maxNumber, String? message)?
+    TResult Function(int targetNumber, int maxNumber, int remainingAttempts,
+            bool isButtonEnabled)?
+        initial,
+    TResult Function(int targetNumber, int maxNumber, int remainingAttempts,
+            String? message)?
         inProgress,
-    TResult Function()? won,
-    TResult Function(int correctNumber)? lost,
+    TResult Function(int targetNumber, int maxNumber, int remainingAttempts)?
+        won,
+    TResult Function(int targetNumber, int maxNumber, int remainingAttempts)?
+        lost,
     required TResult orElse(),
   }) {
     if (lost != null) {
-      return lost(correctNumber);
+      return lost(targetNumber, maxNumber, remainingAttempts);
     }
     return orElse();
   }
@@ -1385,13 +1670,21 @@ class _$GameLostStateImpl implements GameLostState {
 }
 
 abstract class GameLostState implements GameState {
-  const factory GameLostState({required final int correctNumber}) =
-      _$GameLostStateImpl;
+  const factory GameLostState(
+      {required final int targetNumber,
+      required final int maxNumber,
+      required final int remainingAttempts}) = _$GameLostStateImpl;
 
-  int get correctNumber;
+  @override
+  int get targetNumber;
+  @override
+  int get maxNumber;
+  @override
+  int get remainingAttempts;
 
   /// Create a copy of GameState
   /// with the given fields replaced by the non-null parameter values.
+  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GameLostStateImplCopyWith<_$GameLostStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
