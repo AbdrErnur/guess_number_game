@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:solvatech/src/features/guess_number/presentation/screens/widgets/buttons/gn_button.dart';
+import 'package:guess_number_game/src/features/guess_number/presentation/screens/widgets/buttons/gn_button.dart';
 
 class ResultDialog extends StatelessWidget {
   final String title;

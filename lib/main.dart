@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:solvatech/src/app/app.dart';
+import 'package:guess_number_game/src/app/app.dart';
 
 void main() {
   runApp(const GameApp());

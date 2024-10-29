@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:solvatech/src/features/guess_number/presentation/blocs/game_page_bloc/game_page_bloc.dart';
-import 'package:solvatech/src/features/guess_number/presentation/screens/widgets/buttons/gn_button.dart';
-import 'package:solvatech/src/features/guess_number/presentation/screens/widgets/custom_dialogs/error_dialog.dart';
-import 'package:solvatech/src/features/guess_number/presentation/screens/widgets/custom_dialogs/result_dialog.dart';
-import 'package:solvatech/src/features/guess_number/presentation/screens/widgets/text_fields/gn_text_field.dart';
-import 'package:solvatech/src/utils/input_formatters.dart';
+import 'package:guess_number_game/src/features/guess_number/presentation/blocs/game_page_bloc/game_page_bloc.dart';
+import 'package:guess_number_game/src/features/guess_number/presentation/screens/widgets/buttons/gn_button.dart';
+import 'package:guess_number_game/src/features/guess_number/presentation/screens/widgets/custom_dialogs/error_dialog.dart';
+import 'package:guess_number_game/src/features/guess_number/presentation/screens/widgets/custom_dialogs/result_dialog.dart';
+import 'package:guess_number_game/src/features/guess_number/presentation/screens/widgets/text_fields/gn_text_field.dart';
+import 'package:guess_number_game/src/utils/input_formatters.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({super.key});
@@ -83,7 +83,9 @@ class _GamePageState extends State<GamePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                      'Укажите максимальное число для генерации случайного числа'),
+                    'Установите максимальное значение диапазона для случайного числа',
+                    textAlign: TextAlign.center,
+                  ),
                   const SizedBox(height: 8),
                   GnTextField(
                     hintText: 'Введите максимальное число',
